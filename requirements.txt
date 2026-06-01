@@ -1,0 +1,9 @@
+gymnasium==1.1.1
+hmmlearn==0.3.3
+numpy==2.0.2
+pandas==2.3.3
+scikit-learn==1.6.1
+scipy==1.13.1
+stable-baselines3==2.7.1
+torch==2.8.0
+yfinance==1.2.0
