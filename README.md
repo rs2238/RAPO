@@ -39,9 +39,9 @@ Equal-Weight has the best Sharpe on this test window (0.542). The PPO agent's ed
 
 The regime signal reduces annualized volatility by 3.8 percentage points out of sample (20.2% -> 16.4%), with all other hyperparameters held constant. This is the project's central empirical claim.
 
-**Methodology.** Two PPO agents are trained identically (same architecture, same hyperparameters, same random seed, same train/val/test split), differing only in whether the 3 dimensional HMM regime probability vector is included in the observation. The `use_regime=False` variant observes `[30 features | 5 weights]` and the `use_regime=True` variant observes `[30 features | 5 weights | 3 regime probs]`. This isolates the marginal contribution of the regime signal from any benefit that comes from the RL training procedure itself.
+**Methodology:** Two PPO agents are trained identically (same architecture, same hyperparameters, same random seed, same train/val/test split), differing only in whether the 3 dimensional HMM regime probability vector is included in the observation. The `use_regime=False` variant observes `[30 features | 5 weights]` and the `use_regime=True` variant observes `[30 features | 5 weights | 3 regime probs]`. This isolates the marginal contribution of the regime signal from any benefit that comes from the RL training procedure itself.
 
-**What the numbers show.** The regime aware agent produces meaningfully lower out of sample volatility without a proportional reduction in return, improving the Sharpe ratio. The no regime agent achieves competitive in sample performance but shows greater return dispersion on the test set, consistent with regime blind policies that happen to work in one environment failing to adapt when conditions shift.
+**What the numbers show:** The regime aware agent produces meaningfully lower out of sample volatility without a proportional reduction in return, improving the Sharpe ratio. The no regime agent achieves competitive in sample performance but shows greater return dispersion on the test set, consistent with regime blind policies that happen to work in one environment failing to adapt when conditions shift.
 
 ---
 
