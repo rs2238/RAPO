@@ -43,14 +43,6 @@ The regime signal reduces annualized volatility by 3.8 percentage points out of 
 
 **What the numbers show.** The regime aware agent produces meaningfully lower out of sample volatility without a proportional reduction in return, improving the Sharpe ratio. The no regime agent achieves competitive in sample performance but shows greater return dispersion on the test set, consistent with regime blind policies that happen to work in one environment failing to adapt when conditions shift.
 
-To reproduce:
-
-```bash
-python ablation.py
-```
-
-Checkpoints are saved to `ablation_with_regime_best/` and `ablation_no_regime_best/`. If checkpoints already exist, the script loads rather than retrains.
-
 ---
 
 ## Design Rationale
