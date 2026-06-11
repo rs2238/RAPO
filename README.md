@@ -35,7 +35,7 @@ Equal-Weight has the best Sharpe on this test window (0.542). The PPO agent's ed
 
 ---
 
-## Ablation: Does the Regime Signal Actually Help?
+## Ablation study
 
 The regime signal reduces annualized volatility by 3.8 percentage points out of sample (20.2% -> 16.4%), with all other hyperparameters held constant. This is the project's central empirical claim.
 
@@ -45,7 +45,7 @@ The regime signal reduces annualized volatility by 3.8 percentage points out of 
 
 ---
 
-## Design Rationale
+## Design rationale
 
 **Why PPO?** PPO's clipped surrogate objective prevents the catastrophic policy updates that can occur in portfolio environments where a single large position change sends returns to near zero. Its on policy nature also ensures the agent trains on fresh experience from the current policy rather than stale transitions, which matters when regime shifts can quickly make old experiences unrepresentative.
 
