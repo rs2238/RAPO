@@ -49,9 +49,9 @@ The regime signal reduces annualized volatility by 3.8 percentage points out of 
 
 **Why PPO?** PPO's clipped surrogate objective prevents the catastrophic policy updates that can occur in portfolio environments where a single large position change sends returns to near zero. Its on policy nature also ensures the agent trains on fresh experience from the current policy rather than stale transitions, which matters when regime shifts can quickly make old experiences unrepresentative.
 
-**Why a Gaussian HMM with 3 states?** Gaussian HMMs have tractable exact inference (forward-backward algorithm), interpretable parameters (emission means map cleanly to bull/bear/high vol), and a well-understood fitting procedure. Three states is the minimal resolution that captures the empirically distinct equity regimes (trend up, trend down, high dispersion). More states risk overfitting to the training period's specific market history.
+**Why a Gaussian HMM with 3 states?** Gaussian HMMs have tractable exact inference (forward-backward algorithm), interpretable parameters (emission means map cleanly to bull/bear/high vol), and a well understood fitting procedure. Three states is the minimal resolution that captures the empirically distinct equity regimes (trend up, trend down, high dispersion). More states risk overfitting to the training period's specific market history.
 
-**Why soft regime probabilities rather than hard labels?** Hard Viterbi labels switch discretely and inject an artificial step function into the observation space. Soft posteriors let the agent act on regime uncertainty — a partially elevated bear probability of 0.4 is genuinely different information from 0.9, and the policy can reflect that. It also avoids the instability of policies that conditionally execute very different strategies triggered by a single bit flip.
+**Why soft regime probabilities rather than hard labels?** Hard Viterbi labels switch discretely and inject an artificial step function into the observation space. Soft posteriors let the agent act on regime uncertainty. A partially elevated bear probability of 0.4 is genuinely different information from 0.9, and the policy can reflect that. It also avoids the instability of policies that conditionally execute very different strategies triggered by a single bit flip.
 
 **Why these five sector ETFs?** They cover technology, financials, energy, healthcare, and utilities, spanning the growth/value and cyclical/defensive axes that dominate sector rotation strategies. Pairwise correlations across these five are among the most informative features for the HMM: correlations spike toward 1.0 during broad selloffs, which is the primary signature of the bear regime.
 
@@ -61,15 +61,15 @@ The regime signal reduces annualized volatility by 3.8 percentage points out of 
 
 ## Limitations
 
-**Transaction cost model is simplified.** The flat 10bps linear TC model ignores size dependent market impact, bid ask spread variation across volatility regimes, and the distinction between market and limit orders. A real implementation would face higher costs during the high volatility regime, which is exactly when the agent is most likely to trade aggressively.
+**Transaction cost model is simplified:** The flat 10bps linear TC model ignores size dependent market impact, bid ask spread variation across volatility regimes, and the distinction between market and limit orders. A real implementation would face higher costs during the high volatility regime, which is exactly when the agent is most likely to trade aggressively.
 
-**HMM labels are post-hoc.** States are labeled bull/bear/high vol by sorting on mean emission return after fitting. The HMM learns clusters in return space; the labels are interpretive. In practice the "high vol" state sometimes has higher mean returns than expected, which the code flags as a warning.
+**HMM labels are post-hoc:** States are labeled bull/bear/high vol by sorting on mean emission return after fitting. The HMM learns clusters in return space; the labels are interpretive. In practice the "high vol" state sometimes has higher mean returns than expected, which the code flags as a warning.
 
-**Backtest optimism.** The hyperparameter choices (gamma=0.999, entropy coefficient, network architecture) were selected with knowledge of the dataset. A proper walk forward evaluation would require holding a true out of sample period that was never used during development. The 2022-2024 test set here was not used for hyperparameter selection, but the overall approach was developed with awareness of the data's general properties.
+**Backtest optimism:** The hyperparameter choices (gamma=0.999, entropy coefficient, network architecture) were selected with knowledge of the dataset. A proper walk forward evaluation would require holding a true out of sample period that was never used during development. The 2022-2024 test set here was not used for hyperparameter selection, but the overall approach was developed with awareness of the data's general properties.
 
-**Single seed.** Results are reported for one random seed (42). RL training variance across seeds can be substantial, particularly for portfolio environments with sparse reward structure. A robust evaluation would average across multiple seeds.
+**Single seed:** Results are reported for one random seed (42). RL training variance across seeds can be substantial, particularly for portfolio environments with sparse reward structure. A robust evaluation would average across multiple seeds.
 
-**Static regime model.** The HMM is fit once on training data and applied forward. In practice, market microstructure and cross asset relationships evolve over decades; a production system would require periodic model refitting.
+**Static regime model:** The HMM is fit once on training data and applied forward. In practice, market microstructure and cross asset relationships evolve over decades; a production system would require periodic model refitting.
 
 ---
 
